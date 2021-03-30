@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"text/template"
 
+	"github.com/justinas/nosurf"
 	"github.com/xinglixing/book-go/config"
 )
 
@@ -18,11 +19,12 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func addDefaultData(td *config.TemplateData) *config.TemplateData {
+func addDefaultData(td *config.TemplateData, r *http.Request) *config.TemplateData {
+	td.CSRFToken = nosurf.Token(r)
 	return td
 }
 
-func RenderTemplate(rw http.ResponseWriter, tmpl string, td *config.TemplateData) {
+func RenderTemplate(rw http.ResponseWriter, r *http.Request, tmpl string, td *config.TemplateData) {
 	var tc map[string]*template.Template
 
 	if app.UseCache {
@@ -38,7 +40,7 @@ func RenderTemplate(rw http.ResponseWriter, tmpl string, td *config.TemplateData
 
 	buf := new(bytes.Buffer)
 
-	td = addDefaultData(td)
+	td = addDefaultData(td, r)
 
 	t.Execute(buf, td)
 	buf.WriteTo(rw)

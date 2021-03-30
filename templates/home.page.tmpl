@@ -6,6 +6,18 @@
         <div class="col">
             <h1>This is homepage</h1>
             <p>{{index .StringMap "test"}}</p>
+
+            <form action="/test-form" method="POST">
+                <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+                <div class="form-row">
+                    <div class="col">
+                        <input type="text" required class="form-control" name="name" placeholder="Enter your name">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Enter</button>
+            </form>
+
             <img src="/static/images/house.jpeg" alt="A House">
         </div>
     </div>
