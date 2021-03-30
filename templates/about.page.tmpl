@@ -1,0 +1,18 @@
+{{template "base" .}}
+
+{{define "content"}}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>This is about page</h1>
+            <p>
+                {{if ne (index .StringMap "remote_ip") ""}}
+                Your remote ip is: {{index .StringMap "remote_ip"}}
+                {{else}}
+                You are hiding too deep
+                {{end}}
+            </p>
+        </div>
+    </div>
+</div>
+{{end}}
